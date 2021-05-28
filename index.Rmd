@@ -1,0 +1,102 @@
+---
+title: "Seroprevalence Dashboard - Date: `r format(Sys.Date(), '%b %d, %Y')`"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    social: menu
+    logo: ../pics/logo.png
+---
+
+<style>                     
+.navbar {
+  background-color:#000075;
+}
+</style>     
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(dpi = 96, fig.width = 9, fig.height = 4.5)
+library(flexdashboard)
+library(dplyr)
+library(stringr)
+library(lubridate)
+library(forcats)
+library(showtext)
+library(ggplot2)
+
+font_add_google("Roboto Condensed", "robo")
+showtext_auto() 
+
+theme_set(theme_light(base_size = 40, 
+                      base_family = "robo"))
+
+
+recent_file <- list.files(path = "../data/", pattern = "_graphs.RData", full.names = TRUE) %>% 
+  as_tibble() %>% 
+  mutate(date = str_extract(value, "[0-9]{8}"),
+         date = ymd(date)) %>% 
+  arrange(desc(date)) %>% 
+  pull(value) %>% 
+  .[1]
+
+load(recent_file) 
+```
+
+Column
+-----------------------------------------------------------------------
+
+### Count of Participants per Study Site
+
+```{r}
+g01
+```
+
+### Seroprevalence per Study Site compared to the mean of all Sites
+
+```{r}
+g02
+```
+
+
+Column
+-----------------------------------------------------------------------
+
+### Gender distribution by age
+
+```{r}
+g03
+```
+
+### Count of Highest Education
+
+```{r}
+g04
+```
+
+### Count of Smoking status
+
+```{r}
+g05
+```
+
+Column
+-----------------------------------------------------------------------
+
+### Relative difference of Individuals using home office vs not using homeoffice
+
+```{r}
+g06
+```
+
+### Percentage of individuals tested at least once
+
+```{r}
+g07
+```
+
+### Symptomatic and Asymptomatic distribution from sero-positive individuals
+
+```{r}
+g08
+```
