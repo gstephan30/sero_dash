@@ -8,6 +8,10 @@ output:
     logo: ../pics/logo.png
 ---
 
+<script>
+$('.navbar-logo').wrap('<a href="https://serohub.net/en/studies/" target=_blank>');
+</script>
+
 <style>                     
 .navbar {
   background-color:#000075;
