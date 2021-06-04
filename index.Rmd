@@ -47,20 +47,9 @@ recent_file <- list.files(path = "../data/", pattern = "_graphs.RData", full.nam
 load(recent_file) 
 ```
 
-Column
------------------------------------------------------------------------
 
-### Count of Participants per Study Site
-
-```{r}
-g01
-```
-
-### Seroprevalence per Study Site compared to the mean of all Sites
-
-```{r}
-g02
-```
+Demography
+=======================================================================
 
 
 Column
@@ -70,6 +59,22 @@ Column
 
 ```{r}
 g03
+```
+
+### Seroprevalence per Study Site compared to the mean of all Sites
+
+```{r}
+g02_map
+```
+
+
+Column
+-----------------------------------------------------------------------
+
+### Count of Participants per Study Site
+
+```{r}
+g01
 ```
 
 ### Count of Highest Education
@@ -93,6 +98,10 @@ Column
 g06
 ```
 
+
+Seroprevalence
+=======================================================================
+
 ### Percentage of individuals tested at least once
 
 ```{r}
@@ -104,3 +113,4 @@ g07
 ```{r}
 g08
 ```
+
