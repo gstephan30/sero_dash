@@ -28,11 +28,11 @@ library(lubridate)
 library(forcats)
 library(showtext)
 library(ggplot2)
-
+# Rscript.exe --encoding=UTF-8 generate_html_summary.R
 font_add_google("Roboto Condensed", "robo")
 showtext_auto() 
 
-theme_set(theme_light(base_size = 40, 
+theme_set(theme_light(base_size = 24, 
                       base_family = "robo"))
 
 
@@ -48,65 +48,85 @@ load(recent_file)
 ```
 
 
-Demography
+Study Details
 =======================================================================
 
+
+Column 
+-----------------------------------------------------------------------
+
+
+### Count of Participants per Study Site 
+
+```{r fig.height=8, fig.width=8}
+g01
+```
+
+Column 
+-----------------------------------------------------------------------
+
+
+### Seroprevalence per Study Site compared to the mean of all Sites
+
+```{r fig.height=8, fig.width=8}
+g02_map 
+
+# knitr::include_graphics("../../01_R Scripts/g02_map.bmp")
+```
+
+
+
+
+Demography
+=======================================================================
 
 Column
 -----------------------------------------------------------------------
 
 ### Gender distribution by age
 
-```{r}
+```{r fig.height=10, fig.width=7}
 g03
-```
-
-### Seroprevalence per Study Site compared to the mean of all Sites
-
-```{r}
-g02_map
 ```
 
 
 Column
 -----------------------------------------------------------------------
 
-### Count of Participants per Study Site
+### Probability of using homeoffice
 
-```{r}
-g01
+```{r fig.width=10, fig.height=3}
+g06
 ```
+
+
 
 ### Count of Highest Education
 
-```{r}
+```{r fig.width=10, fig.height=3}
 g04
 ```
 
 ### Count of Smoking status
 
-```{r}
+```{r fig.width=10, fig.height=3}
 g05
-```
-
-Column
------------------------------------------------------------------------
-
-### Relative difference of Individuals using home office vs not using homeoffice
-
-```{r}
-g06
 ```
 
 
 Seroprevalence
 =======================================================================
 
+
+Column
+-----------------------------------------------------------------------
+
 ### Percentage of individuals tested at least once
 
 ```{r}
 g07
 ```
+
 
 ### Symptomatic and Asymptomatic distribution from sero-positive individuals
 
