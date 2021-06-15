@@ -22,9 +22,9 @@ valuebox <- tibble(x = 2,
   geom_text(fontface = "bold", size = 12, color = "white") +
   scale_fill_identity() +
   theme_void() +
-  scale_x_continuous(expand=c(0,0)) +
-  scale_y_continuous(expand=c(0,0)) +
-  labs(x=NULL, y=NULL, title=NULL) 
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(x = NULL, y = NULL, title = NULL) 
 
 ggsave("valuebox.png",
        plot = valuebox,
