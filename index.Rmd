@@ -1,22 +1,24 @@
 ---
-title: "Seroprevalence Dashboard - Date: `r format(Sys.Date(), '%b %d, %Y')`"
+title: "Seroprävalenz Dashboard - Datum: `r format(Sys.Date(), '%b %d, %Y')`"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
-    social: menu
     logo: ../pics/logo.png
+    social: [ "twitter", "facebook", "linkedin" ]
+    theme: 
+      version: 4
+      bootswatch: cosmo
+      navbar-bg: "#1d3557"
+    css: styles/styles.css
 ---
 
 <script>
-$('.navbar-logo').wrap('<a href="https://serohub.net/en/studies/" target=_blank>');
+$('.navbar-logo').wrap('<a href="https://serohub.net/en/" target=_blank>');
 </script>
 
-<style>                     
-.navbar {
-  background-color:#000075;
-}
-</style>     
+
+
 
 
 ```{r setup, include=FALSE}
@@ -35,8 +37,10 @@ showtext_auto()
 theme_set(theme_light(base_size = 24, 
                       base_family = "robo"))
 
+file_path <- "../data/"
+#file_path <- "../04_Dashboard/data/"
 
-recent_file <- list.files(path = "../data/", pattern = "_graphs.RData", full.names = TRUE) %>% 
+recent_file <- list.files(path = file_path, pattern = "_graphs.RData", full.names = TRUE) %>% 
   as_tibble() %>% 
   mutate(date = str_extract(value, "[0-9]{8}"),
          date = ymd(date)) %>% 
@@ -48,7 +52,7 @@ load(recent_file)
 ```
 
 
-Study Details
+Studiendetails
 =======================================================================
 
 
@@ -56,9 +60,9 @@ Column
 -----------------------------------------------------------------------
 
 
-### Count of Participants per Study Site 
+### Anzahl der Teilnehmer nach Studienzentrum 
 
-```{r fig.height=8, fig.width=8}
+```{r fig.height=8, fig.width=8, eval=TRUE}
 g01
 ```
 
@@ -66,102 +70,200 @@ Column
 -----------------------------------------------------------------------
 
 
-### Seroprevalence per Study Site compared to the mean of all Sites
+### Karte der Studienzentren
 
-```{r fig.height=8, fig.width=8}
+```{r fig.height=8, fig.width=8, eval=TRUE}
 g02
 ```
 
 
 
 
-Demography
+Demographie
 =======================================================================
 
 Column
 -----------------------------------------------------------------------
 
-### Gender distribution by age
+### Altersverteilung
 
-```{r fig.height=10, fig.width=7}
+```{r fig.height=10, fig.width=10, eval=TRUE}
 g03
 ```
 
 
-Column
+Column {data-width=300}
 -----------------------------------------------------------------------
 
-### Data Summary
+
+### Median Alter
 
 ```{r}
-g04
+age <- data04 %>% 
+  filter(key == "age") %>% 
+  pull(value)
+valueBox(
+  age, icon = "fa-pagelines",
+  color = "#264653"
+)
 ```
 
+### % sind Frauen
 
+```{r}
+age <- data04 %>% 
+  filter(key == "gender") %>% 
+  pull(value)
+valueBox(
+  age, icon = "fa-female",
+  color = "#2a9d8f"
+)
+```
 
+### % haben höhere Schulausbildung (z.B. Abitur)
 
-Seroprevalence
+```{r}
+age <- data04 %>% 
+  filter(key == "school") %>% 
+  pull(value)
+valueBox(
+  age, icon = "fa-school",
+  color = "#e9c46a"
+)
+```
+
+### % aller positiv gestesteten sind asymptomatisch
+
+```{r}
+age <- data04 %>% 
+  filter(key == "asymptomatic") %>% 
+  pull(value)
+valueBox(
+  age, icon = "fa-user-plus",
+  color = "#f4a261"
+)
+```
+
+### % haben Herzkrankheiten
+
+```{r}
+age <- data04 %>% 
+  filter(key == "cardio") %>% 
+  pull(value)
+valueBox(
+  age, icon = "fa-heart",
+  color = "#e76f51"
+)
+```
+
+### % haben niemals geraucht
+
+```{r}
+age <- data04 %>% 
+  filter(key == "smokers") %>% 
+  pull(value)
+valueBox(
+  age, icon = "fa-joint",
+  color = "#e63946"
+)
+```
+
+### % konnten im Home-Office arbeiten    
+
+```{r}
+age <- data04 %>% 
+  filter(key == "home") %>% 
+  pull(value)
+valueBox(
+  age, icon = "fa-briefcase",
+  color = "#003049"
+)
+```
+
+Impfungen und Seroprävalenzen 
 =======================================================================
 
 
-Column
+Column {.tabset .tabset-fade}
 -----------------------------------------------------------------------
 
 ### Erstimpfungen im Vergleich
 
-```{r}
+```{r fig.width=10, eval=TRUE}
 g05
 ```
 
+### Seroprävalenzen I
 
-### Seroprävalenzen
-
-```{r}
-
+```{r eval=TRUE, fig.height=8, fig.width=12}
+g06[[1]]
 ```
 
-Imprint
-=======================================================================
+### Seroprävalenzen II
+```{r eval=TRUE, fig.width=12}
+g06[[2]]
+```
 
-**IMPRINT**  
-PUBLISHER  
-Helmholtz Centre for Infection Research (HZI)  
+Impressum 
+=================================================
+
+__Herausgeber__
+
+Helmholtz-Zentrum für Infektionsforschung GmbH (HZI)  
 Inhoffenstraße 7 | 38124 Braunschweig  
 Telefon: 0531 6181-0  
+Telefax: 0531 6181-2655  
 E-Mail: info@helmholtz-hzi.de  
-Internet: http://www.helmholtz-hzi.de/  
-  
-**LEGAL FORM**  
-The Helmholtz Centre for Infection Research is a Gesellschaft mit beschränkter Haftung (GmbH), which is similar to a limited liability company.
-  
-Commercial Register Braunschweig, Germany  
-Registration Number: HRB 477  
-Register court: Amtsgericht Braunschweig  
-  
-  
-**RESPONSIBLE FOR CONTENTS:**  
-Dr Stephan Glöckner, MSc  
-stephan.gloeckner (at) helmholtz-hzi.de  
-Telefon: 0531 6181- 3125  
-  
-**CORPORATE GOVERNANCE**  
-The Helmholtz Centre for Infection Research GmbH submits to the “Public Corporate Governance Code (PCGC)” of the federal government according to the memorandum of association. The Code recommends that the management and the supervisory board reports on the Company’s corporate governance (Corporate Governance Report) on an annual basis.  
+Internet: https://www.helmholtz-hzi.de/  
 
-The report refers to the PCGK as constituted on 30th of June 2009. Management and Supervisory Board declare that the recommendations of the Code are being complied essentially and will, deviations are explained in the respective report.  
+__Rechtsform__
 
-The Management Board and Supervisory Board declare that the Federal Public Corporate Governance Code as amended on 30 June 2009 has been complied with with reasonable deviations from the prescribed recommendations.  
+Das Helmholtz-Zentrum für Infektionsforschung (HZI) ist eine Gesellschaft mit beschränkter Haftung (mbH). Das HZI ist Mitglied der Helmholtz-Gemeinschaft Deutscher Forschungszentren e.V.  
+Registernummer: HRB 477  
+Registergericht: Amtsgericht Braunschweig
 
-**COPYRIGHT**  
-The content of all web pages of this Internet presence is protected by copyright. All images and photos on the HZI web pages may not be copied, reproduced and distributed without the permission of the HZI, unless such action is permitted by law. Modification of the metadata (IPTC data including naming of author, source, copyright notice and terms of use) of the images is not permitted.  
-  
-Images under a Creative Commons License may be used according to the license used. 
-  
-The use of images and photographs not under a Creative Commons License is permitted in the following cases, provided the HZI is cited For editorial-journalistic publications in press and other media about the work of the HZI, for other non-commercial purposes (education, personal information). Commercial use must be requested from the HZI in advance.  
+__Vertretungsberechtigte Personen__
 
-**DISCLAIMER**  
-The Helmholtz Centre for Infection Research does not take any responsibility for damages that occur in connection with any use of this website. The content of this website gets reviewed and updated on a regular basis if possible, a guarantee for correctness of any content can’t be given in any case though.  
-  
-**INFORMATION**  
-We do not take any liability for any content of any external sites we link to. The content of external sites belongs to the sphere of responsibility of it’s respective publishers.  
-  
-The data in this imprint is exclusively intended for getting in contact with us regarding content and legal issues. Any use of this data for advertisement is strictly prohibited.  
+Prof. Dr. Dirk Heinz, Wissenschaftlicher Geschäftsführer  
+Silke Tannapfel, Administrative Geschäftsführerin  
+(Anschrift wie oben)  
+
+Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz 
+DE 114815244  
+Verantwortlich iSd. § 55 II RStV  
+
+Helmholtz-Zentrum für Infektionsforschung GmbH
+
+Verantwortlich für journalistisch-redaktionelle Inhalte:  
+
+Susanne Thiele (Pressesprecherin)  
+Inhoffenstraße 7  
+D-38124 Braunschweig  
+Telefon: 0531 6181- 0
+
+__Wissenschaftliche Redaktion__
+
+Dr. Stephan Glöckner, Data Scientist/Epidemiologe (https://github.com/gstephan30)   
+Manuela Harries, MPH, Epidemiologin  
+Dr. Berit Lange, Projektleitung  
+Telefon: 0531 6181- 3100  
+
+__Urheberrecht__
+
+Der Inhalt aller Webseiten dieses Internetauftrittes ist urheberrechtlich geschützt. Alle Abbildungen und Fotos auf den Webseiten des HZI dürfen nicht ohne Genehmigung des HZI übernommen, vervielfältigt und verbreitet werden, außer die Maßnahme ist nach gesetzlichen Vorschriften zustimmungsfrei erlaubt. Eine Veränderung der Metadaten (IPTC-Daten inkl. Nennung von Urheber, Quelle, Copyright-Vermerk und Nutzungsbedingungen) der Bilder ist nicht zulässig.
+
+Bilder unter einer Creative Commons Lizenz dürfen gemäß der verwendeten Lizenz genutzt werden.
+
+Die Verwendung von Abbildungen und Fotos, die nicht unter einer Creative Commons Lizenz stehen, ist bei Nennung des HZI in den folgenden Fällen gestattet: Bei redaktionell-journalistischen Veröffentlichungen in Presse und anderen Medien über die Arbeit des HZI, für sonstige nicht-kommerzielle Zwecke (Bildung, persönliche Information). Eine kommerzielle Nutzung ist zuvor beim HZI anzufragen.
+
+__Haftungshinweis__
+
+Die auf den Web-Seiten enthaltenen Informationen wurden sorgfältig erstellt und das HZI ist um eine laufende Aktualisierung bemüht, eine Gewähr für die Korrektheit, Aktualität und Vollständigkeit kann aber nicht übernommen werden, es sei denn bei nachgewiesenem vorsätzlichen oder grob fahrlässigem Verschulden des HZI. Das gilt auch für die Inhalte externer Links zu anderen Internet-Seiten.
+
+Trotz sorgfältiger inhaltlicher Kontrolle übernimmt das HZI keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.
+
+__Zu dieser Seite__
+
+Die im Impressum vom Verfasser angegebenen Kontaktdaten sind ausschließlich zur Kontaktaufnahme bezüglich rechtlicher und inhaltlicher Themen gedacht. Die Verwendung dieser Daten für werbende Zwecke wird ausdrücklich untersagt.
+
+Konzeption, Design und technische Umsetzung der Website wurden realisiert von Helmholtz-Zentrum für Infektionsforschung GmbH
