@@ -6,12 +6,11 @@ output:
     vertical_layout: fill
     logo: ../pics/logo.png
     social: [ "twitter", "facebook", "linkedin" ]
-    theme: 
-      version: 4
-      bootswatch: cosmo
-      navbar-bg: "#1d3557"
     css: styles/styles.css
+
+
 ---
+
 
 <script>
 $('.navbar-logo').wrap('<a href="https://serohub.net/en/" target=_blank>');
@@ -38,7 +37,6 @@ theme_set(theme_light(base_size = 24,
                       base_family = "robo"))
 
 file_path <- "../data/"
-#file_path <- "../04_Dashboard/data/"
 
 recent_file <- list.files(path = file_path, pattern = "_graphs.RData", full.names = TRUE) %>% 
   as_tibble() %>% 
